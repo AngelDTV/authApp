@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,14 +17,11 @@ use App\Http\Controllers\AuthController;
 
 Route::get('login', function () {
     return view('login-view');
-})->name('login');
+})->name('login')->middleware('guest');
 
-Route::post('login', [AuthController::class, 'login']);
-Route::post('register', [AuthController::class, 'register']);
-Route::post('code/login-with-code', [AuthController::class, 'loginWithCode']);
 
 Route::get('home', function () {
-    return view('home-view');
+    return view('home-view')->with('user', Auth::user());
 })->middleware('auth');
 
 Route::get('code/{email}', function ($email) {
@@ -31,8 +30,13 @@ Route::get('code/{email}', function ($email) {
 
 Route::get('/register', function () {
     return view('register-view');
-});
+})->middleware('guest');
 
 Route::fallback(function () {
     return redirect('/login');
 });
+
+Route::post('login', [AuthController::class, 'login']);
+Route::post('logout', [AuthController::class, 'logout'])->middleware('auth');
+Route::post('register', [AuthController::class, 'register']);
+Route::post('code/login-with-code', [AuthController::class, 'loginWithCode']);
