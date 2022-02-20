@@ -14,10 +14,16 @@ use Illuminate\Support\Facades\Auth;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::middleware('guest')->group(function (){
+    Route::get('login', function () {
+        return view('login-view');
+    })->name('login');
 
-Route::get('login', function () {
-    return view('login-view');
-})->name('login')->middleware('guest');
+    Route::get('/register', function () {
+        return view('register-view');
+    })->middleware('guest');
+
+});
 
 
 Route::get('home', function () {
@@ -28,9 +34,7 @@ Route::get('code/{email}', function ($email) {
     return view('code-view')->with('email', $email);
 })->name('code');
 
-Route::get('/register', function () {
-    return view('register-view');
-})->middleware('guest');
+
 
 Route::fallback(function () {
     return redirect('/login');
