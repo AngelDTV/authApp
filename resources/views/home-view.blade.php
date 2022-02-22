@@ -78,7 +78,7 @@
             <h1>Bienvenido a la aplicación!</h1>
             <h2>{{ $user->email }}</h2>
             <br>
-            <form action="logout" method="POST">
+            <form action="api/v1/logout" method="POST">
                 @csrf
                 <button type="submit" class="btn btn-danger btn-rounded">Cerrar Sesión</button>
             </form>

@@ -45,7 +45,7 @@
 
                     <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
                     <p class="text-white-50 mb-5">Please enter your data!</p>
-                <form action="login" method="POST">
+                <form action="api/v1/login" method="POST">
                     @csrf
                 <div class="mb-4" style="text-align: left">
                     <div class="form-outline form-white">

@@ -45,7 +45,7 @@
 
                     <h2 class="fw-bold mb-2 text-uppercase">One Time Code</h2>
                     <p class="text-white-50 mb-5">Enter the one time code we sent to the mail {{ $email }}</p>
-                <form action="login-with-code" method="POST">
+                <form action="/api/v1/code/login-with-code" method="POST">
                     @csrf
                 <input type="hidden" name="email" value="{{$email}}">
                 <div class="mb-4" style="text-align: left">
