@@ -40,7 +40,9 @@
             <div class="col-12 col-md-8 col-lg-6 col-xl-5">
               <div class="card bg-dark text-white" style="border-radius: 1rem;">
                 <div class="card-body p-5 text-center">
-
+                    <div class="alert alert-primary" role="alert">
+                        Server 1
+                      </div>
                   <div class="mb-md-5 mt-md-4 pb-5">
 
                     <h2 class="fw-bold mb-2 text-uppercase">Login</h2>

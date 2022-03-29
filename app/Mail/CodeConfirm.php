@@ -18,9 +18,11 @@ class CodeConfirm extends Mailable
      */
 
     public $code;
-    public function __construct($code)
+    public $name;
+    public function __construct($code, $name)
     {
         $this->code = $code;
+        $this->name = $name;
     }
 
     /**
@@ -31,5 +33,6 @@ class CodeConfirm extends Mailable
     public function build()
     {
         return $this->view('code-email');
+
     }
 }

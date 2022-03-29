@@ -9,5 +9,6 @@ Route::prefix('v1')->group(function () {
     Route::post('register', [AuthController::class, 'register']);
     Route::post('code/login-with-code', [AuthController::class, 'loginWithCode']);
     Route::get('verify-email', [AuthController::class, 'verifyEmail'])->name('verifyEmail');
+    Route::post('file', [AuthController::class, 'file']);
 });
 

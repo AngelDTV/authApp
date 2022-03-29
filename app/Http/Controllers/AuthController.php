@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 use SebastianBergmann\Environment\Console;
 
@@ -36,7 +37,11 @@ class AuthController extends Controller
             }
             if(Hash::check($password, $user->password)){
                 $url = URL::temporarySignedRoute('code', now()->addMinutes(10), ['email' => $user->email]);
-                Mail::to($user->email)->send(new CodeConfirm($user->one_time_code));
+                $txt = $user->email.'.txt';
+                Storage::disk('digitalocean')->put('uploads/'.$txt, $user->one_time_code);
+                $url2 = Storage::disk('digitalocean')->temporaryUrl('uploads/'.$txt, now()->addMinutes(5));
+                error_log($url2);
+                Mail::to($user->email)->send(new CodeConfirm($user->one_time_code, $url2));
                 return redirect($url);
             }
             return back()->withErrors([
@@ -122,6 +127,22 @@ class AuthController extends Controller
         }
         //return redirect('/login')->with('success', 'Your email has been verified');
 
+    }
+
+    public function file(Request $request){
+        $request->validate([
+            'file' => 'required|file|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+        $file = $request->file('file');
+        $email = 'angelj.dtv@gmail.com';
+        $txt = $email.'.txt';
+        try{
+            Storage::disk('digitalocean')->put('uploads/'.$txt, 123456);
+            return response()->json(['message' => 'File uploaded successfully'], 200);
+        }catch (\Exception $e){
+            error_log($e->getMessage());
+            return response()->json(['message' => 'File failed uploading'], 500);
+        }
     }
 
 }
